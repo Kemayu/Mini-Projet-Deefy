@@ -1,3 +1,4 @@
-Mirac DEMIRCI\n
+Mirac DEMIRCI
+
 Guillaume HESS
 # Mini-Projet-Deefy
