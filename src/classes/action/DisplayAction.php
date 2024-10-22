@@ -13,9 +13,9 @@ class DisplayAction extends \iutnc\deefy\classes\action\Action
             $playlist = unserialize($_SESSION['playlist']);
             $renderer = new AudioListRender($playlist);
 
-// Appelez la méthode render avec l'argument approprié
+// Appel de la méthode render
 // 1 pour mode compact, 2 pour mode complet
-            return $renderer->render(2); // ou utilisez 2 selon vos besoins
+            return $renderer->render(2);
         } else {
             return "<div>Aucune playlist disponible.</div>";
         }

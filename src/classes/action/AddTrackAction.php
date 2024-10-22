@@ -22,7 +22,7 @@ class AddTrackAction extends Action
                 </form>
             END;
         } else {
-            // Récupérer les données du formulaire et les filtrer
+            // Récupération des données
             $titre = filter_var($_POST['titre'], FILTER_SANITIZE_SPECIAL_CHARS);
             $nomDuFichier = filter_var($_POST['nomDuFichier'], FILTER_SANITIZE_SPECIAL_CHARS);
             $auteur = filter_var($_POST['auteur'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -32,10 +32,10 @@ class AddTrackAction extends Action
             // Conversion de la durée en entier
             $duree = (int)$_POST['duree'];
 
-            // Création de l'objet PodcastTrack avec les 6 arguments requis
+            // Création de PodcastTrack
             $podcastTrack = new PodcastTrack($titre, $auteur, $genre, $nomDuFichier, $duree, $date);
 
-            // Affichage du succès ou autre traitement
+            // Affichage
             $html = "<div>Podcast Track ajouté : {$podcastTrack->getTitre()}</div>";
         }
 
