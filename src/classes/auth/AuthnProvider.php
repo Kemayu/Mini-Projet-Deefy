@@ -46,4 +46,11 @@ class AuthnProvider
         $stmt = self::$db->prepare("INSERT INTO User (email, passwd) VALUES (?, ?)");
         $stmt->execute([$email, $hash]);
     }
+    public static function getSignedInUser(): array
+    {
+        if (!isset($_SESSION['user'])) {
+            throw new AuthnException("No user signed in.");
+        }
+        return $_SESSION['user'];
+    }
 }

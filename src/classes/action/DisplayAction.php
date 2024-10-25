@@ -1,23 +1,24 @@
 <?php
 
-namespace iutnc\deefy\classes\action;
+namespace iutnc\deefy\action;
 
+use iutnc\deefy\repository\DeefyRepository;
+use iutnc\deefy\classes\auth\AuthnProvider;
 use iutnc\deefy\classes\render\AudioListRender;
 
-class DisplayAction extends \iutnc\deefy\classes\action\Action
+class DisplayAction
 {
-    public function execute(): string
+    public function execute(int $id): void
     {
-// Vérifiez si la playlist est en session
-        if (isset($_SESSION['playlist'])) {
-            $playlist = unserialize($_SESSION['playlist']);
-            $renderer = new AudioListRender($playlist);
+        try {
+            AuthnProvider::checkPlaylistOwner($id);
+            $repo = new DeefyRepository();
+            $playlist = $repo->findPlaylistById($id);
 
-// Appel de la méthode render
-// 1 pour mode compact, 2 pour mode complet
-            return $renderer->render(2);
-        } else {
-            return "<div>Aucune playlist disponible.</div>";
+            $renderer = new AudioListRender();
+            $renderer->render($playlist);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
     }
 }
