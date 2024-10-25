@@ -33,7 +33,7 @@ class Dispatcher
                 $a = new DefaultAction();
                 break;
             default:
-                echo "erreur";
+                $this->renderPage("");
                 return;
         }
 

@@ -1,54 +1,46 @@
 <?php
+
 namespace iutnc\deefy\repository;
 
 use PDO;
-use PDOException;
+use iutnc\deefy\entity\Playlist;
+use iutnc\deefy\entity\Track;
 
-class DeefyRepository {
-    private static ?PDO $instance = null;
-    private static array $config;
+class DeefyRepository
+{
+    private static ?PDO $db = null;
 
-    public static function setConfig($file): void {
-        self::$config = parse_ini_file($file);
+    public static function setConfig(string $file): void
+    {
+        $config = parse_ini_file($file);
+        self::$db = new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config['user'], $config['password']);
     }
 
-    public static function getInstance(): PDO {
-        if (self::$instance === null) {
-            try {
-                $dsn = 'mysql:host=' . self::$config['host'] . ';dbname=' . self::$config['dbname'];
-                self::$instance = new PDO($dsn, self::$config['username'], self::$config['password']);
-                self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                die('Erreur : ' . $e->getMessage());
+    public static function getInstance(): ?PDO
+    {
+        return self::$db;
+    }
+
+    public function findPlaylistById(int $id): ?Playlist
+    {
+        $stmt = self::$db->prepare("SELECT * FROM playlist WHERE id = ?");
+        $stmt->execute([$id]);
+        $playlistData = $stmt->fetch();
+
+        if ($playlistData) {
+            $playlist = new Playlist($playlistData['id'], $playlistData['name'], $playlistData['user_id']);
+
+            $stmtTracks = self::$db->prepare("SELECT * FROM track INNER JOIN playlist2track ON track.id = playlist2track.track_id WHERE playlist2track.playlist_id = ?");
+            $stmtTracks->execute([$id]);
+
+            while ($trackData = $stmtTracks->fetch()) {
+                $track = new Track($trackData['id'], $trackData['title'], $trackData['artist']);
+                $playlist->addTrack($track);
             }
+
+            return $playlist;
         }
-        return self::$instance;
-    }
 
-    public function findAllPlaylists(): array {
-        $stmt = self::$instance->query('SELECT * FROM playlist');
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function saveEmptyPlaylist(string $name): int {
-        $stmt = self::$instance->prepare('INSERT INTO playlist (name) VALUES (:name)');
-        $stmt->bindParam(':name', $name);
-        $stmt->execute();
-        return self::$instance->lastInsertId();
-    }
-
-    public function saveTrack(string $title, string $artist): int {
-        $stmt = self::$instance->prepare('INSERT INTO track (title, artist) VALUES (:title, :artist)');
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':artist', $artist);
-        $stmt->execute();
-        return self::$instance->lastInsertId();
-    }
-
-    public function addTrackToPlaylist(int $playlistId, int $trackId): void {
-        $stmt = self::$instance->prepare('INSERT INTO playlist2track (playlist_id, track_id) VALUES (:playlist_id, :track_id)');
-        $stmt->bindParam(':playlist_id', $playlistId);
-        $stmt->bindParam(':track_id', $trackId);
-        $stmt->execute();
+        return null;
     }
 }
