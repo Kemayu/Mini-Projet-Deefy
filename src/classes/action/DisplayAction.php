@@ -1,24 +1,35 @@
 <?php
 
-namespace iutnc\deefy\action;
+namespace iutnc\deefy\classes\action;
 
-use iutnc\deefy\repository\DeefyRepository;
-use iutnc\deefy\classes\auth\AuthnProvider;
-use iutnc\deefy\classes\render\AudioListRender;
+use iutnc\deefy\classes\repository\DeefyRepository;
 
-class DisplayAction
+class DisplayAction extends Action
 {
-    public function execute(int $id): void
+    public function execute(): string
     {
-        try {
-            AuthnProvider::checkPlaylistOwner($id);
-            $repo = new DeefyRepository();
-            $playlist = $repo->findPlaylistById($id);
-
-            $renderer = new AudioListRender();
-            $renderer->render($playlist);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+        if (!isset($_SESSION['user_email'])) {
+            return "Vous devez être connecté pour voir vos playlists.";
         }
+
+        $repo = new DeefyRepository();
+
+// Récupérer l'ID de l'utilisateur en fonction de l'email stocké en session
+        $userId = $repo->getUserIdByEmail($_SESSION['user_email']);
+
+        if ($userId === null) {
+            return "Utilisateur non trouvé.";
+        }
+
+// Passer l'ID utilisateur pour récupérer les playlists
+        $playlists = $repo->findPlaylistsByUser($userId);
+
+// Affichage des playlists
+        $output = "<h1>Vos Playlists</h1>";
+        foreach ($playlists as $playlist) {
+            $output .= "<p><a href='?action=current-playlist&id=" . htmlspecialchars($playlist['id']) . "'>" . htmlspecialchars($playlist['name']) . "</a></p>";
+        }
+
+        return $output;
     }
 }

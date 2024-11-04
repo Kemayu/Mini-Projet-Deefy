@@ -4,9 +4,11 @@ namespace iutnc\deefy\classes\dispatch;
 
 use iutnc\deefy\classes\action\AddTrackAction;
 use iutnc\deefy\classes\action\AddPlaylistAction;
-use iutnc\deefy\classes\action\DefaultAction;
+use iutnc\deefy\classes\action\DisplayCurrentAction;
 use iutnc\deefy\classes\action\DisplayAction;
-
+use iutnc\deefy\classes\action\SignInAction;
+use iutnc\deefy\classes\action\SignUpAction;
+use iutnc\deefy\classes\action\LogoutAction; // Pour déconnexion
 
 class Dispatcher
 {
@@ -14,26 +16,36 @@ class Dispatcher
 
     public function __construct()
     {
-        $this->action = isset($_GET['action']) ? $_GET['action'] : null;
+        $this->action = $_GET['action'] ?? null;
     }
 
     public function run(): void
     {
+        // Gérer les actions selon l'utilisateur connecté ou non
         switch ($this->action) {
             case "add-playlist":
-                $a = new AddPlaylistAction();
+                $a = new AddPlaylistAction(); // Création d'une playlist vide
                 break;
             case "add-track":
-                $a = new AddTrackAction();
+                $a = new AddTrackAction(); // Ajout d'une piste à la playlist courante
                 break;
-            case "playlist":
-                $a = new DisplayAction();
+            case "current-playlist":
+                $a = new DisplayCurrentAction(); // Affichage de la playlist courante
                 break;
-            case "default":
-                $a = new DefaultAction();
+            case "my-playlists":
+                $a = new DisplayAction(); // Affichage des playlists de l'utilisateur connecté
+                break;
+            case "signup":
+                $a = new SignUpAction(); // Inscription de l'utilisateur
+                break;
+            case "signin":
+                $a = new SignInAction(); // Connexion de l'utilisateur
+                break;
+            case "logout":
+                $a = new LogoutAction(); // Déconnexion
                 break;
             default:
-                $this->renderPage("");
+                $this->renderPage("Bienvenue sur Deefy ! Connectez-vous ou inscrivez-vous pour gérer vos playlists.");
                 return;
         }
 
@@ -47,16 +59,17 @@ class Dispatcher
         <!DOCTYPE html>
         <html>
             <head>
-                <title>Deffy</title>
+                <title>Deefy</title>
                 <meta charset="UTF-8">
             </head>
             <body>
                 <ul>
+                    <li><a href="?action=my-playlists">Mes playlists</a></li>
                     <li><a href="?action=add-playlist">Créer une nouvelle playlist</a></li>
-                    <li><a href="?action=add-track">Ajouter une piste à la playlist</a></li>
-                    <li><a href="?action=playlist">Afficher la playlist</a></li>
-                    <li><a href="?action=add-user">Ajouter un utilisateur</a></li>
-                    
+                    <li><a href="?action=current-playlist">Afficher la playlist courante</a></li>
+                    <li><a href="?action=signup">S'inscrire</a></li>
+                    <li><a href="?action=signin">S'authentifier</a></li>
+                    <li><a href="?action=logout">Se déconnecter</a></li>
                 </ul>
                 <p>$html</p>
             </body>

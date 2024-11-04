@@ -2,41 +2,57 @@
 
 namespace iutnc\deefy\classes\action;
 
-use iutnc\deefy\classes\audio\lists\Playlist;
-use iutnc\deefy\classes\render\AudioListRender;
+use iutnc\deefy\classes\repository\DeefyRepository;
 
-class AddPlaylistAction extends \iutnc\deefy\classes\action\Action
+class AddPlaylistAction extends Action
 {
     public function execute(): string
     {
-        if ($this->http_method === 'GET') {
-            // Formulaire
-            $html = <<<END
-                <form method="post" action="?action=add-playlist">
-                    <label>Nom de la playlist : <input type="text" name="nom" placeholder="Nom"></label>
-                    <button type="submit">Créer</button>
-                </form>
-            END;
-        } else {
-            // Création de la playlist
-            $nom = filter_var($_POST['nom'], FILTER_SANITIZE_SPECIAL_CHARS);
-
-            if (!$nom) {
-                return "<b>Nom de la playlist invalide</b>";
-            }
-
-            // Création de la playlist + stockage
-            $playlist = new Playlist($nom);
-            $_SESSION['playlist'] = serialize($playlist);
-
-            $html = "<div>Playlist '$nom' créée.</div>";
-
-            // Utilisation du renderer
-            $a = new AudioListRender($playlist);
-
-            // Sélectionnez le type d'affichage
-            $html .= $a->render(1);  // 1 pour compact, 2 pour complet
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user_email'])) {
+            return "Vous devez etre connecté pour créer une playlist.";
         }
-        return $html;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            return $this->getForm();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            return $this->handleForm();
+        }
+        return "";
     }
+
+    private function getForm(): string
+    {
+        return <<<END
+<form method="POST" action="?action=add-playlist">
+    <label for="name">Nom de la playlist :</label>
+    <input type="text" name="name" required><br>
+    <button type="submit">Créer la playlist</button>
+</form>
+END;
+    }
+
+    private function handleForm(): string
+    {
+        $name = $_POST['name'] ?? null;
+
+        if (empty($name)) {
+            return "Le nom de la playlist ne peut pas être vide.";
+        }
+
+        $repo = new DeefyRepository();
+
+        // Récupérer l'ID utilisateur en fonction de l'email stocké en session
+        $userId = $repo->getUserIdByEmail($_SESSION['user_email']);
+
+        if ($userId === null) {
+            return "Utilisateur non trouvé.";
+        }
+
+        // Passer l'ID utilisateur et le nom de la playlist
+        $repo->createPlaylist($userId, $name);
+
+        return "Playlist '$name' créée avec succès.";
+    }
+
 }

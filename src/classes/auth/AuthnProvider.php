@@ -3,7 +3,7 @@
 namespace iutnc\deefy\classes\auth;
 
 use PDO;
-use iutnc\deefy\AuthnException;
+use iutnc\deefy\classes\exception\AuthnException;
 
 class AuthnProvider
 {
@@ -13,6 +13,21 @@ class AuthnProvider
     {
         self::$db = $pdo;
     }
+
+    public static function register(string $email, string $pass): void
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new AuthnException("Error: Invalid email format");
+        }
+
+        // Hashage du mot de passe
+        $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost' => 12]);
+
+        // Insertion du nouvel utilisateur dans la base de données
+        $stmt = self::$db->prepare("INSERT INTO User (email, passwd) VALUES (?, ?)");
+        $stmt->execute([$email, $hash]);
+    }
+
 
     public static function signin(string $email, string $passwd2check): void
     {
@@ -33,24 +48,4 @@ class AuthnProvider
         }
     }
 
-    public static function register(string $email, string $pass): void
-    {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new AuthnException("Error: Invalid email format");
-        }
-
-// Hashage du mot de passe
-        $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost' => 12]);
-
-// Insertion du nouvel utilisateur dans la base de données
-        $stmt = self::$db->prepare("INSERT INTO User (email, passwd) VALUES (?, ?)");
-        $stmt->execute([$email, $hash]);
-    }
-    public static function getSignedInUser(): array
-    {
-        if (!isset($_SESSION['user'])) {
-            throw new AuthnException("No user signed in.");
-        }
-        return $_SESSION['user'];
-    }
 }

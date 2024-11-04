@@ -2,43 +2,34 @@
 
 namespace iutnc\deefy\classes\action;
 
-use iutnc\deefy\classes\audio\tracks\PodcastTrack;
+use iutnc\deefy\classes\repository\DeefyRepository;
 
 class AddTrackAction extends Action
 {
     public function execute(): string
     {
-        if ($this->http_method === 'GET') {
-            // Formulaire pour ajouter un podcast track
-            $html = <<<END
-                <form method="post" action="?action=add-track">
-                    <label>Titre : <input type="text" name="titre"></label><br>
-                    <label>Nom du fichier : <input type="text" name="nomDuFichier"></label><br>
-                    <label>Auteur : <input type="text" name="auteur"></label><br>
-                    <label>Date : <input type="text" name="date"></label><br>
-                    <label>Genre : <input type="text" name="genre"></label><br>
-                    <label>Durée (en secondes) : <input type="number" name="duree"></label><br>
-                    <button type="submit">Ajouter</button>
-                </form>
-            END;
-        } else {
-            // Récupération des données
-            $titre = filter_var($_POST['titre'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $nomDuFichier = filter_var($_POST['nomDuFichier'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $auteur = filter_var($_POST['auteur'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $date = filter_var($_POST['date'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $genre = filter_var($_POST['genre'], FILTER_SANITIZE_SPECIAL_CHARS);
-
-            // Conversion de la durée en entier
-            $duree = (int)$_POST['duree'];
-
-            // Création de PodcastTrack
-            $podcastTrack = new PodcastTrack($titre, $auteur, $genre, $nomDuFichier, $duree, $date);
-
-            // Affichage
-            $html = "<div>Podcast Track ajouté : {$podcastTrack->getTitre()}</div>";
+// Vérifiez si l'utilisateur est connecté
+        if (!isset($_SESSION['user_email'])) {
+            return "Vous devez vous authentifier pour ajouter une piste.";
         }
 
-        return $html;
+// Vérifiez si une playlist courante est définie
+        if (!isset($_SESSION['playlist_id'])) {
+            return "Aucune playlist courante sélectionnée.";
+        }
+
+        $title = $_POST['title'] ?? null;
+        $artist = $_POST['artist'] ?? null;
+
+        if (empty($title) || empty($artist)) {
+            return "Le titre et l'artiste sont requis.";
+        }
+
+        $playlistId = $_SESSION['playlist_id'];
+        $repo = new DeefyRepository();
+        $trackId = $repo->saveTrack($title, $artist);
+        $repo->addTrackToPlaylist($playlistId, $trackId);
+
+        return "La piste a été ajoutée avec succès à la playlist.";
     }
 }
