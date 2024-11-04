@@ -57,12 +57,14 @@ class Dispatcher
     {
         echo <<<END
         <!DOCTYPE html>
-        <html>
+        <html lang="fr">
             <head>
                 <title>Deefy</title>
                 <meta charset="UTF-8">
+                <link rel="stylesheet" href="css/style.css">
             </head>
             <body>
+             <div class="container">
                 <ul>
                     <li><a href="?action=my-playlists">Mes playlists</a></li>
                     <li><a href="?action=add-playlist">Créer une nouvelle playlist</a></li>
@@ -71,6 +73,7 @@ class Dispatcher
                     <li><a href="?action=signin">S'authentifier</a></li>
                     <li><a href="?action=logout">Se déconnecter</a></li>
                 </ul>
+                <div/>
                 <p>$html</p>
             </body>
         </html>
