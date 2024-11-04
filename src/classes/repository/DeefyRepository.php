@@ -46,6 +46,17 @@ class DeefyRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findLastPlaylistByUser(int $userId): ?array
+    {
+        $stmt = self::getInstance()->prepare("SELECT * FROM playlist WHERE user_id = :userId ORDER BY created_at DESC LIMIT 1");
+        $stmt->bindParam(':userId', $userId);
+        $stmt->execute();
+        $playlist = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $playlist ?: null;
+    }
+
+
 
     public function saveEmptyPlaylist(string $name, int $userId): int
     {
@@ -90,7 +101,7 @@ class DeefyRepository
     // Ajouter une piste à une playlist
     public function addTrackToPlaylist(int $playlistId, int $trackId): void
     {
-        $stmt = self::getInstance()->prepare('INSERT INTO playlist2track (playlist_id, track_id) VALUES (:playlist_id, :track_id)');
+        $stmt = self::getInstance()->prepare('INSERT INTO playlist_track (playlist_id, track_id) VALUES (:playlist_id, :track_id)');
         $stmt->bindParam(':playlist_id', $playlistId);
         $stmt->bindParam(':track_id', $trackId);
         $stmt->execute();
@@ -113,8 +124,8 @@ class DeefyRepository
         $stmt = self::getInstance()->prepare('
         SELECT track.title, track.artist
         FROM track
-        JOIN playlist2track ON track.id = playlist2track.track_id
-        WHERE playlist2track.playlist_id = :id
+        JOIN playlist_track ON track.id = playlist_track.track_id
+        WHERE playlist_track.playlist_id = :id
     ');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();

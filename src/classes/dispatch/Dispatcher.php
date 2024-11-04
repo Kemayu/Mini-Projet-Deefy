@@ -6,7 +6,7 @@ use iutnc\deefy\classes\action\AddTrackAction;
 use iutnc\deefy\classes\action\AddPlaylistAction;
 use iutnc\deefy\classes\action\DisplayCurrentAction;
 use iutnc\deefy\classes\action\DisplayAction;
-use iutnc\deefy\classes\action\SignInAction;
+use iutnc\deefy\classes\action\LogInAction;
 use iutnc\deefy\classes\action\SignUpAction;
 use iutnc\deefy\classes\action\LogoutAction; // Pour déconnexion
 
@@ -39,7 +39,7 @@ class Dispatcher
                 $a = new SignUpAction(); // Inscription de l'utilisateur
                 break;
             case "signin":
-                $a = new SignInAction(); // Connexion de l'utilisateur
+                $a = new LogInAction(); // Connexion de l'utilisateur
                 break;
             case "logout":
                 $a = new LogoutAction(); // Déconnexion

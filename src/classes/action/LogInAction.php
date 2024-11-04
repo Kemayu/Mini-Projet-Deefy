@@ -3,9 +3,10 @@
 namespace iutnc\deefy\classes\action;
 
 use iutnc\deefy\classes\auth\AuthnProvider;
-use iutnc\deefy\AuthnException;
+use iutnc\deefy\classes\repository\DeefyRepository;
+use iutnc\deefy\classes\exception\AuthnException;
 
-class SignInAction extends Action
+class LogInAction extends Action
 {
     public function execute(): string
     {
@@ -39,7 +40,17 @@ END;
             AuthnProvider::signin($email, $passwd);
             $_SESSION['user_email'] = $email; // Stocker l'email dans la session
 
-            return "Connexion réussie. Vous pouvez maintenant créer des playlists.";
+// Récupérer l'ID de l'utilisateur et la dernière playlist
+            $repo = new DeefyRepository();
+            $userId = $repo->getUserIdByEmail($email);
+
+// Récupérer la dernière playlist de l'utilisateur
+            $lastPlaylist = $repo->findLastPlaylistByUser($userId);
+            if ($lastPlaylist) {
+                $_SESSION['playlist_id'] = $lastPlaylist['id']; // Stocker l'ID de la dernière playlist en session
+            }
+
+            return "Connexion réussie. Vous pouvez maintenant créer ou consulter vos playlists.";
         } catch (AuthnException $e) {
             return $e->getMessage();
         }

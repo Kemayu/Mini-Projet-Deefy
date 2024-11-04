@@ -2,14 +2,17 @@
 
 namespace iutnc\deefy\classes\action;
 
-use iutnc\deefy\classes\auth\AuthnProvider;
 use iutnc\deefy\classes\repository\DeefyRepository;
-use iutnc\deefy\classes\exception\AuthnException;
 
 class SignUpAction extends Action
 {
     public function execute(): string
     {
+        // Vérifiez si l'utilisateur est déjà connecté
+        if (isset($_SESSION['user_email'])) {
+            return "Vous êtes déjà connecté. Veuillez vous déconnecter avant de créer un nouveau compte.";
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             return $this->getForm();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,13 +39,14 @@ END;
         $email = $_POST['email'] ?? null;
         $passwd = $_POST['passwd'] ?? null;
 
-        $repo = new DeefyRepository();
-
-        try {
-            AuthnProvider::register($email, $passwd);
-            return "Inscription réussie, vous pouvez maintenant vous connecter.";
-        } catch (AuthnException $e) {
-            return "Erreur lors de l'inscription : " . $e->getMessage();
+        if (empty($email) || empty($passwd)) {
+            return "L'email et le mot de passe sont obligatoires.";
         }
+
+        $repo = new DeefyRepository();
+        $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
+        $repo->createUser($email, $hashedPassword);
+
+        return "Inscription réussie. Vous pouvez maintenant vous connecter.";
     }
 }
