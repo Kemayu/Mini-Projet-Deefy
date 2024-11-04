@@ -6,10 +6,9 @@ class LogoutAction extends Action
 {
     public function execute(): string
     {
-// Détruire la session
-        session_unset(); // Efface les variables de session
-        session_destroy(); // Détruit la session
 
+        session_unset();
+        session_destroy();
         return "Vous avez été déconnecté.";
     }
 }

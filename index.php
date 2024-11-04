@@ -11,13 +11,13 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Configuration de la base de données
-DeefyRepository::setConfig(__DIR__ . '/config/config.ini'); // Assurez-vous que ce fichier existe et est correct
+DeefyRepository::setConfig(__DIR__ . '/config/config.ini');
 
 // Connexion à la base de données
-$host = 'localhost'; // Remplacez par votre hôte
-$dbname = 'Deefy'; // Remplacez par le nom de votre base de données
-$username = 'root'; // Remplacez par votre nom d'utilisateur
-$password = ''; // Remplacez par votre mot de passe
+$host = 'localhost';
+$dbname = 'Deefy';
+$username = 'root';
+$password = '';
 
 try {
     $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";

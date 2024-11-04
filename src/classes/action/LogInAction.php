@@ -38,7 +38,7 @@ END;
 
         try {
             AuthnProvider::signin($email, $passwd);
-            $_SESSION['user_email'] = $email; // Stocker l'email dans la session
+            $_SESSION['user_email'] = $email; // Stock l'email dans la session
 
 // Récupérer l'ID de l'utilisateur et la dernière playlist
             $repo = new DeefyRepository();
@@ -47,7 +47,7 @@ END;
 // Récupérer la dernière playlist de l'utilisateur
             $lastPlaylist = $repo->findLastPlaylistByUser($userId);
             if ($lastPlaylist) {
-                $_SESSION['playlist_id'] = $lastPlaylist['id']; // Stocker l'ID de la dernière playlist en session
+                $_SESSION['playlist_id'] = $lastPlaylist['id']; // Stock l'ID de la dernière playlist en session
             }
 
             return "Connexion réussie. Vous pouvez maintenant créer ou consulter vos playlists.";

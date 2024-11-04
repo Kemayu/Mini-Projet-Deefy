@@ -28,8 +28,5 @@ class AudioTrack
         return (property_exists($this, $name)) ? $this->$name : throw new InvalidPropertyNameException("invalid property : $name");
     }
 
-    public function setDuree(int $duree): void
-    {
-        $duree < 0 ? throw new InvalidPropertyValueException("invalid value : $duree") : $this->duree = $duree;
-    }
+
 }

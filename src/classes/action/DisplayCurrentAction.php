@@ -41,7 +41,7 @@ class DisplayCurrentAction extends Action
         }
         $html .= "</ul>";
 
-        // Ajoutez ici le formulaire pour ajouter une nouvelle piste
+        // Fourmulaire
         $html .= "<h3>Ajouter une nouvelle piste</h3>";
         $html .= <<<FORM
 <form method="POST" action="?action=add-track">
