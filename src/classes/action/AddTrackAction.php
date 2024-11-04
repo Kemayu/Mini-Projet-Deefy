@@ -8,12 +8,12 @@ class AddTrackAction extends Action
 {
     public function execute(): string
     {
-// Vérifiez si l'utilisateur est connecté
+// Vérification connexion
         if (!isset($_SESSION['user_email'])) {
             return "Vous devez vous authentifier pour ajouter une piste.";
         }
 
-// Vérifiez si une playlist courante est définie
+// Vérification playlist
         if (!isset($_SESSION['playlist_id'])) {
             return "Aucune playlist courante sélectionnée.";
         }

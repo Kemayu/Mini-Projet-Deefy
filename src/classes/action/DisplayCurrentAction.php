@@ -8,12 +8,10 @@ class DisplayCurrentAction extends Action
 {
     public function execute(): string
     {
-        // Vérifiez si l'utilisateur est connecté
+        // Vérification
         if (!isset($_SESSION['user_email'])) {
             return "Vous devez etre connecté pour afficher la playlist courante.";
         }
-
-        // Vérifiez si une playlist est stockée en session
         if (!isset($_SESSION['playlist_id'])) {
             return "Aucune playlist courante.";
         }

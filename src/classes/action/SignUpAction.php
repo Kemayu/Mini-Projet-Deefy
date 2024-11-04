@@ -8,7 +8,7 @@ class SignUpAction extends Action
 {
     public function execute(): string
     {
-        // Vérifiez si l'utilisateur est déjà connecté
+        // Vérification connexion
         if (isset($_SESSION['user_email'])) {
             return "Vous êtes déjà connecté. Veuillez vous déconnecter avant de créer un nouveau compte.";
         }

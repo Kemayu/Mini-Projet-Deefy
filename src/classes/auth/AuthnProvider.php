@@ -20,10 +20,10 @@ class AuthnProvider
             throw new AuthnException("Error: Invalid email format");
         }
 
-        // Hashage du mot de passe
+        // Hashage
         $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost' => 12]);
 
-        // Insertion du nouvel utilisateur dans la base de données
+        // Insertion
         $stmt = self::$db->prepare("INSERT INTO User (email, passwd) VALUES (?, ?)");
         $stmt->execute([$email, $hash]);
     }
@@ -31,7 +31,7 @@ class AuthnProvider
 
     public static function signin(string $email, string $passwd2check): void
     {
-// Préparation de la requête pour obtenir le hash du mot de passe
+
         $stmt = self::$db->prepare("SELECT passwd FROM User WHERE email = ?");
         $stmt->execute([$email]);
         $row = $stmt->fetch();
@@ -42,7 +42,7 @@ class AuthnProvider
 
         $hash = $row['passwd'];
 
-// Vérification du mot de passe avec celui en base
+// Vérification
         if (!password_verify($passwd2check, $hash)) {
             throw new AuthnException("Auth error: Invalid credentials");
         }

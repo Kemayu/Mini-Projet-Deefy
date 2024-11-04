@@ -8,7 +8,7 @@ use iutnc\deefy\classes\action\DisplayCurrentAction;
 use iutnc\deefy\classes\action\DisplayAction;
 use iutnc\deefy\classes\action\LogInAction;
 use iutnc\deefy\classes\action\SignUpAction;
-use iutnc\deefy\classes\action\LogoutAction; // Pour déconnexion
+use iutnc\deefy\classes\action\LogoutAction;
 
 class Dispatcher
 {
@@ -21,28 +21,27 @@ class Dispatcher
 
     public function run(): void
     {
-        // Gérer les actions selon l'utilisateur connecté ou non
         switch ($this->action) {
             case "add-playlist":
-                $a = new AddPlaylistAction(); // Création d'une playlist vide
+                $a = new AddPlaylistAction();
                 break;
             case "add-track":
-                $a = new AddTrackAction(); // Ajout d'une piste à la playlist courante
+                $a = new AddTrackAction();
                 break;
             case "current-playlist":
-                $a = new DisplayCurrentAction(); // Affichage de la playlist courante
+                $a = new DisplayCurrentAction();
                 break;
             case "my-playlists":
-                $a = new DisplayAction(); // Affichage des playlists de l'utilisateur connecté
+                $a = new DisplayAction();
                 break;
             case "signup":
-                $a = new SignUpAction(); // Inscription de l'utilisateur
+                $a = new SignUpAction();
                 break;
             case "signin":
-                $a = new LogInAction(); // Connexion de l'utilisateur
+                $a = new LogInAction();
                 break;
             case "logout":
-                $a = new LogoutAction(); // Déconnexion
+                $a = new LogoutAction();
                 break;
             default:
                 $this->renderPage("Bienvenue sur Deefy ! Connectez-vous ou inscrivez-vous pour gérer vos playlists.");
@@ -73,8 +72,8 @@ class Dispatcher
                     <li><a href="?action=signin">S'authentifier</a></li>
                     <li><a href="?action=logout">Se déconnecter</a></li>
                 </ul>
-                <div/>
                 <p>$html</p>
+                 </div>
             </body>
         </html>
         END;

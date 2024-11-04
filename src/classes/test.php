@@ -7,17 +7,15 @@ $username = 'root';
 $password = '';
 
 try {
-    // Créer une nouvelle connexion PDO
     $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
     $pdo = new PDO($dsn, $username, $password);
 
-    // Configurer les attributs PDO pour gérer les erreurs
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Afficher un message de connexion réussie
+    // Affichage
     echo "Connexion réussie à la base de données : $dbname\n";
 
-    // Insérer un utilisateur
+    // Insérer
     $email = 'utilisateur@example.com';
     $passwd = 'motdepasse';
     $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT); // Hash du mot de passe
@@ -26,7 +24,7 @@ try {
     $insertStmt->execute([$email, $hashedPassword]);
     echo "Utilisateur inséré avec succès : $email\n";
 
-    // Suppression de l'utilisateur
+    // Suppression
     $deleteEmail = 'utilisateur@example.com';
     $deleteStmt = $pdo->prepare("DELETE FROM User WHERE email = ?");
     $deleteStmt->execute([$deleteEmail]);

@@ -42,14 +42,13 @@ END;
 
         $repo = new DeefyRepository();
 
-        // Récupérer l'ID utilisateur en fonction de l'email stocké en session
+        // Récupération utilisateur
         $userId = $repo->getUserIdByEmail($_SESSION['user_email']);
 
         if ($userId === null) {
             return "Utilisateur non trouvé.";
         }
 
-        // Passer l'ID utilisateur et le nom de la playlist
         $repo->createPlaylist($userId, $name);
 
         return "Playlist '$name' créée avec succès.";

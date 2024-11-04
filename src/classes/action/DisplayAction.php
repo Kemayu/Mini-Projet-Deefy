@@ -14,14 +14,13 @@ class DisplayAction extends Action
 
         $repo = new DeefyRepository();
 
-// Récupérer l'ID de l'utilisateur en fonction de l'email stocké en session
+// Récupérer l'ID de l'utilisateur
         $userId = $repo->getUserIdByEmail($_SESSION['user_email']);
 
         if ($userId === null) {
             return "Utilisateur non trouvé.";
         }
 
-// Passer l'ID utilisateur pour récupérer les playlists
         $playlists = $repo->findPlaylistsByUser($userId);
 
 // Affichage des playlists
