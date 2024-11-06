@@ -16,7 +16,7 @@ try {
     echo "Connexion réussie à la base de données : $dbname\n";
 
     // Insérer
-    $email = 'utilisateur@example.com';
+    $email = 'utilisateur@exemple.com';
     $passwd = 'motdepasse';
     $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT); // Hash du mot de passe
 
