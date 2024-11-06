@@ -9,7 +9,7 @@ class DisplayAction extends Action
     public function execute(): string
     {
         if (!isset($_SESSION['user_email'])) {
-            return "Vous devez être connecté pour voir vos playlists.";
+            return "Vous devez être connecté pour voir vos playlists";
         }
 
         $repo = new DeefyRepository();
@@ -18,7 +18,7 @@ class DisplayAction extends Action
         $userId = $repo->getUserIdByEmail($_SESSION['user_email']);
 
         if ($userId === null) {
-            return "Utilisateur non trouvé.";
+            return "Utilisateur non trouvé";
         }
 
         $playlists = $repo->findPlaylistsByUser($userId);

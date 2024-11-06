@@ -9,6 +9,6 @@ class LogoutAction extends Action
 
         session_unset();
         session_destroy();
-        return "Vous avez été déconnecté.";
+        return "Vous avez été déconnecté";
     }
 }

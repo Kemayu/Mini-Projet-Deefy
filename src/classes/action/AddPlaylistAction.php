@@ -8,9 +8,9 @@ class AddPlaylistAction extends Action
 {
     public function execute(): string
     {
-        // Vérifier si l'utilisateur est connecté
+        // Vérification de la connexion
         if (!isset($_SESSION['user_email'])) {
-            return "Vous devez etre connecté pour créer une playlist.";
+            return "Vous devez etre connecté pour créer une playlist";
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -37,7 +37,7 @@ END;
         $name = $_POST['name'] ?? null;
 
         if (empty($name)) {
-            return "Le nom de la playlist ne peut pas être vide.";
+            return "Le nom de la playlist ne peut pas être vide";
         }
 
         $repo = new DeefyRepository();
@@ -46,12 +46,12 @@ END;
         $userId = $repo->getUserIdByEmail($_SESSION['user_email']);
 
         if ($userId === null) {
-            return "Utilisateur non trouvé.";
+            return "Utilisateur non trouvé";
         }
 
         $repo->createPlaylist($userId, $name);
 
-        return "Playlist '$name' créée avec succès.";
+        return "Playlist '$name' créée avec succès";
     }
 
 }

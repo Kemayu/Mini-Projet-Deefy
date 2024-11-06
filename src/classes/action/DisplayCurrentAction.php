@@ -10,10 +10,10 @@ class DisplayCurrentAction extends Action
     {
         // Vérification
         if (!isset($_SESSION['user_email'])) {
-            return "Vous devez etre connecté pour afficher la playlist courante.";
+            return "Vous devez etre connecté pour afficher la playlist courante";
         }
         if (!isset($_SESSION['playlist_id'])) {
-            return "Aucune playlist courante.";
+            return "Aucune playlist courante";
         }
 
         $playlistId = $_SESSION['playlist_id'];
@@ -22,7 +22,7 @@ class DisplayCurrentAction extends Action
 
         // Vérifiez si la playlist existe
         if (!$playlist) {
-            return "La playlist n'existe pas.";
+            return "La playlist n'existe pas";
         }
 
         // Affichage des informations de la playlist

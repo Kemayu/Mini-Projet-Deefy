@@ -10,7 +10,7 @@ class SignUpAction extends Action
     {
         // Vérification connexion
         if (isset($_SESSION['user_email'])) {
-            return "Vous êtes déjà connecté. Veuillez vous déconnecter avant de créer un nouveau compte.";
+            return "Vous êtes déjà connecté. Veuillez vous déconnecter avant de créer un nouveau compte";
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -40,13 +40,13 @@ END;
         $passwd = $_POST['passwd'] ?? null;
 
         if (empty($email) || empty($passwd)) {
-            return "L'email et le mot de passe sont obligatoires.";
+            return "L'email et le mot de passe sont obligatoires";
         }
 
         $repo = new DeefyRepository();
         $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
         $repo->createUser($email, $hashedPassword);
 
-        return "Inscription réussie. Vous pouvez maintenant vous connecter.";
+        return "Inscription réussie. Vous pouvez maintenant vous connecter";
     }
 }

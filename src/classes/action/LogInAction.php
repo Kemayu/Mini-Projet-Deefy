@@ -46,10 +46,10 @@ END;
 
             $lastPlaylist = $repo->findLastPlaylistByUser($userId);
             if ($lastPlaylist) {
-                $_SESSION['playlist_id'] = $lastPlaylist['id']; // Stockage
+                $_SESSION['playlist_id'] = $lastPlaylist['id'];
             }
 
-            return "Connexion réussie. Vous pouvez maintenant créer ou consulter vos playlists.";
+            return "Connexion réussie. Vous pouvez maintenant créer ou consulter vos playlists";
         } catch (AuthnException $e) {
             return $e->getMessage();
         }
