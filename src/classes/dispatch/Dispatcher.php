@@ -60,11 +60,11 @@ class Dispatcher
             <head>
                 <title>Deefy</title>
                 <meta charset="UTF-8">
-                <link rel="stylesheet" href="css/style.css">
+                <link rel="stylesheet" href="css/DeefyStyle.css">
             </head>
             <body>
-             <div class="container">
-                <ul>
+              <nav>
+                 <ul class="nav-list">
                     <li><a href="?action=my-playlists">Mes playlists</a></li>
                     <li><a href="?action=add-playlist">Créer une nouvelle playlist</a></li>
                     <li><a href="?action=current-playlist">Afficher la playlist courante</a></li>
@@ -72,8 +72,10 @@ class Dispatcher
                     <li><a href="?action=signin">S'authentifier</a></li>
                     <li><a href="?action=logout">Se déconnecter</a></li>
                 </ul>
-                <p>$html</p>
-                 </div>
+               </nav>
+               <div class="container">
+                  <p>$html</p>
+                </div>
             </body>
         </html>
         END;

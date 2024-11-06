@@ -2,7 +2,7 @@
 
 namespace iutnc\deefy\classes\action;
 
-use iutnc\deefy\classes\auth\AuthnProvider;
+use iutnc\deefy\classes\auth\AuthzProvider;
 use iutnc\deefy\classes\repository\DeefyRepository;
 
 class SignUpAction extends Action
@@ -10,7 +10,7 @@ class SignUpAction extends Action
     public function execute(): string
     {
         // Vérification connexion
-        if (AuthnProvider::authEmail()) {
+        if (AuthzProvider::authEmail()) {
             return "Vous êtes déjà connecté. Veuillez vous déconnecter avant de créer un nouveau compte";
         }
 

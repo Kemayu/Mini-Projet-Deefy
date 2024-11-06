@@ -40,7 +40,7 @@ END;
             AuthnProvider::signin($email, $passwd);
             $_SESSION['user_email'] = $email;
 
-// Récupération
+
             $repo = new DeefyRepository();
             $userId = $repo->getUserIdByEmail($email);
 
@@ -51,6 +51,8 @@ END;
 
             return "Connexion réussie. Vous pouvez maintenant créer ou consulter vos playlists";
         } catch (AuthnException $e) {
+            session_unset();
+            session_destroy();
             return $e->getMessage();
         }
     }

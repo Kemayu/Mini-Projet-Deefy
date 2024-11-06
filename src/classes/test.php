@@ -25,7 +25,7 @@ try {
     echo "Utilisateur inséré avec succès : $email\n";
 
     // Suppression
-    $deleteEmail = 'utilisateur@example.com';
+    $deleteEmail = 'utilisateur@exemple.com';
     $deleteStmt = $pdo->prepare("DELETE FROM User WHERE email = ?");
     $deleteStmt->execute([$deleteEmail]);
     echo "Utilisateur supprimé avec succès : $deleteEmail\n";

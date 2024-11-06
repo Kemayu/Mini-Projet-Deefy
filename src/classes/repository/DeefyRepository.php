@@ -31,8 +31,6 @@ class DeefyRepository
         return self::$instance;
     }
 
-
-
     public function findPlaylistsByUser(int $userId): array
     {
         $stmt = self::getInstance()->prepare('SELECT * FROM playlist WHERE user_id = :user_id');
@@ -61,45 +59,72 @@ class DeefyRepository
 
         $_SESSION['playlist_id'] = $playlistId;
     }
-    public function saveTrack(string $title, string $artist): int
+
+
+    public function saveTrack(string $title, string $artist, int $duration, ?string $genre, string $file_name): int
     {
-        $stmt = self::getInstance()->prepare('INSERT INTO track (title, artist, created_at) VALUES (:title, :artist, NOW())');
+        // Préparation de la requête SQL pour insérer une nouvelle piste
+        $query = "INSERT INTO track (title, artist, duration, genre, file_name, created_at) 
+                  VALUES (:title, :artist, :duration, :genre, :file_name, NOW())";
+
+        // Préparation de la requête à l'aide de l'instance PDO
+        $stmt = self::getInstance()->prepare($query);
+
+        // Lier les paramètres de la requête
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':artist', $artist);
+        $stmt->bindParam(':duration', $duration);
+        $stmt->bindParam(':genre', $genre);
+        $stmt->bindParam(':file_name', $file_name);
+
+        // Exécution de la requête
         $stmt->execute();
+
+        // Retourner l'ID de la piste insérée
         return self::getInstance()->lastInsertId();
     }
 
-    // Ajouter une piste à une playlist
+
+
+    // Méthode pour ajouter une piste à une playlist
     public function addTrackToPlaylist(int $playlistId, int $trackId): void
     {
-        $stmt = self::getInstance()->prepare('INSERT INTO playlist_track (playlist_id, track_id) VALUES (:playlist_id, :track_id)');
+        $query = "INSERT INTO playlist_track (playlist_id, track_id) VALUES (:playlist_id, :track_id)";
+        $stmt = self::getInstance()->prepare($query);
         $stmt->bindParam(':playlist_id', $playlistId);
         $stmt->bindParam(':track_id', $trackId);
         $stmt->execute();
     }
+
     public function findPlaylistById(int $id): array
     {
+        // Récupérer les informations de la playlist
         $stmt = self::getInstance()->prepare('SELECT * FROM playlist WHERE id = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $playlist = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Si la playlist n'existe pas, retourner un tableau vide
         if (!$playlist) {
             return [];
         }
+
+        // Récupérer les pistes associées à la playlist avec les attributs supplémentaires
         $stmt = self::getInstance()->prepare('
-        SELECT track.title, track.artist
+        SELECT track.id AS track_id, track.title, track.artist, track.duration, track.genre, track.file_name
         FROM track
         JOIN playlist_track ON track.id = playlist_track.track_id
         WHERE playlist_track.playlist_id = :id
     ');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
+
+        // Ajouter les pistes récupérées à la playlist
         $playlist['tracks'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $playlist;
     }
+
 
     public function createUser(string $email, string $hashedPassword): void
     {
@@ -128,8 +153,5 @@ class DeefyRepository
 
         return $user ?: null;
     }
-
-
-
 
 }

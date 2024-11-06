@@ -1,28 +1,68 @@
-/* Réinitialisation des marges et du padding pour tous les éléments */
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 /* Corps de la page */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f7fb; /* Fond clair avec une nuance de violet */
+    background-color: #e9d4ff; /* Fond clair avec une nuance de violet */
     color: #4b007d; /* Texte violet foncé */
     line-height: 1.6;
     padding: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; /* Centrer tout le contenu */
     min-height: 100vh;
+    margin: 0;
 }
 
-/* Conteneur principal */
+/* Menu de navigation en haut */
+nav {
+    background-color: #4b007d; /* Couleur de fond plus foncée pour la barre */
+    width: 100%;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Assurez-vous qu'il soit au-dessus du contenu */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Conteneur des éléments de menu */
+.nav-list {
+    display: flex;
+    justify-content: space-evenly; /* Répartir les éléments uniformément */
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.nav-list li {
+    margin: 0;
+}
+
+.nav-list a {
+
+    text-decoration: none;
+    font-size: 16px; /* Taille réduite pour une meilleure présentation */
+    font-weight: 500;
+    padding: 12px 20px; /* Onglets arrondis et plus petits */
+    border-radius: 25px; /* Coins arrondis pour les onglets */
+    transition: background-color 0.3s ease;
+    display: block; /* Assure que chaque lien occupe toute la largeur de l'élément */
+    text-align: center; /* Centrer le texte dans chaque onglet */
+}
+
+.nav-list a:hover {
+    background-color: #6a0dad; /* Violet moyen au survol */
+    border-radius: 25px;
+    color : #ffffff
+}
+
+/* Conteneur principal pour le contenu */
 .container {
     width: 100%;
     max-width: 900px; /* Un peu plus large pour plus d'espace */
-    margin: auto;
+    margin-top: 80px; /* Décalage pour le menu en haut */
     background: #fff;
     padding: 30px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombre plus marquée */
@@ -43,6 +83,7 @@ a {
     font-weight: 500;
     transition: color 0.3s ease;
 }
+
 a:hover {
     color: #4b007d; /* Violet foncé au survol */
     text-decoration: underline;
@@ -154,4 +195,31 @@ ul li a:hover {
     border-radius: 8px;
     margin-bottom: 20px;
     font-weight: 500;
+}
+
+/* Responsiveness : Menu de navigation */
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: column; /* Affichage en colonne sur mobile */
+        align-items: center;
+    }
+
+    .nav-list a {
+        font-size: 14px; /* Taille de texte réduite sur mobile */
+        padding: 10px 15px; /* Réduire l'espace autour du texte */
+        width: 80%; /* Largeur des onglets réduite pour s'adapter à l'écran */
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-list a {
+        font-size: 12px; /* Taille encore plus petite sur les très petits écrans */
+        padding: 8px 12px; /* Réduire encore plus l'espace */
+        width: 90%; /* Ajuster la largeur des onglets */
+    }
+
+    .container {
+        width: 95%; /* Largeur plus grande pour s'adapter aux petits écrans */
+    }
 }
