@@ -41,12 +41,6 @@ class User
         return $this->role;
     }
 
-    // Verif si l'utilisateur est un administrateur
-    public function isAdmin(): bool
-    {
-        return $this->role === 'ADMIN';
-    }
-
     // Méthode statique pour recuperer un utilisateur par email
     public static function loadByEmail(string $email): ?User
     {
@@ -60,16 +54,5 @@ class User
         return null;
     }
 
-    // Methode statique pour récupérer un utilisateur par ID
-    public static function loadById(int $id): ?User
-    {
-        $repo = new DeefyRepository();
-        $userData = $repo->getUserById($id);
 
-        if ($userData) {
-            return new User($userData['id'], $userData['email'], $userData['created_at'], $userData['role']);
-        }
-
-        return null;
-    }
 }

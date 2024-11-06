@@ -9,7 +9,7 @@ class DisplayCurrentAction extends Action
 {
     public function execute(): string
     {
-        // Vérification
+
         if (!AuthzProvider::authEmail()) {
             return "Vous devez etre connecté pour créer une playlist";
         }
@@ -24,7 +24,7 @@ class DisplayCurrentAction extends Action
         $playlist = $repo->findPlaylistById($_SESSION['playlist_id']);
 
 
-        // Vérifiez si la playlist existe
+        // Verif si la playlist existe
         if (!$playlist) {
             return "La playlist n'existe pas";
         }
@@ -38,12 +38,12 @@ class DisplayCurrentAction extends Action
         // Liste des pistes de la playlist
         $html .= "<ul>";
 
-        // Vérifiez si la playlist a des pistes
+        // Verif si la playlist a des pistes
         if (empty($playlist['tracks'])) {
             $html .= "<li>Aucune piste dans cette playlist.</li>";
         } else {
             foreach ($playlist['tracks'] as $track) {
-                // Assurez-vous d'afficher les attributs supplémentaires pour chaque piste
+
                 $html .= "<li>";
                 $html .= "<strong>Titre :</strong> {$track['title']}<br>";
                 $html .= "<strong>Artiste :</strong> {$track['artist']}<br>";

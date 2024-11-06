@@ -68,7 +68,7 @@ END;
             return "La durée doit être un nombre positif.";
         }
 
-        // Validation du genre (facultatif, mais on peut ajouter une validation pour éviter des valeurs incorrectes)
+
         if (!empty($genre) && strlen($genre) > 50) {
             return "Le genre ne peut pas dépasser 50 caractères.";
         }

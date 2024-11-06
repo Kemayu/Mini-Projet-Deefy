@@ -12,12 +12,6 @@ class AuthzProvider
         return isset($_SESSION['user_email']);
     }
 
-    // Vérifie si l'utilisateur a un rôle particulier (ex : ADMIN)
-    public static function checkUserRole(string $role): bool
-    {
-        return isset($_SESSION['user_role']) && $_SESSION['user_role'] === $role;
-    }
-
     // Vérifie si l'utilisateur est le propriétaire d'une playlist
     public static function isPlaylistOwner(int $userId, int $playlistId): bool
     {
@@ -29,14 +23,5 @@ class AuthzProvider
         return $playlist && $playlist['user_id'] === $userId;
     }
 
-    // Méthode pour vérifier toutes les autorisations nécessaires en une seule fois
-    public static function checkPermissions(array $permissions): bool
-    {
-        foreach ($permissions as $permission) {
-            if (!self::$permission()) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 }
