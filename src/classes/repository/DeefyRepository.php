@@ -18,7 +18,7 @@ class DeefyRepository
     {
         if (self::$instance === null) {
             if (self::$config === null) {
-                throw new \Exception("Configuration non définie. Veuillez appeler setConfig() avant d'utiliser cette classe.");
+                throw new \Exception("Config error : Fichier de configuration non trouvé");
             }
             try {
                 $dsn = 'mysql:host=' . self::$config['host'] . ';dbname=' . self::$config['dbname'];

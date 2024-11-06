@@ -44,7 +44,7 @@ class Dispatcher
                 $a = new LogoutAction();
                 break;
             default:
-                $this->renderPage("Bienvenue sur Deefy ! Connectez-vous ou inscrivez-vous pour gérer vos playlists.");
+                $this->renderPage("Bienvenue sur Deefy ! Connectez-vous ou inscrivez-vous pour gérer vos playlists");
                 return;
         }
 
