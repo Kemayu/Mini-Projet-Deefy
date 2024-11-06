@@ -17,7 +17,7 @@ class AuthnProvider
     public static function register(string $email, string $pass): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new AuthnException("Error: Invalid email format");
+            throw new AuthnException("Error : Email invalide");
         }
 
         // Hashage
@@ -44,7 +44,7 @@ class AuthnProvider
 
 // Vérification
         if (!password_verify($passwd2check, $hash)) {
-            throw new AuthnException("Auth error: Invalid credentials");
+            throw new AuthnException("Auth error:  Credential invalide");
         }
     }
 
