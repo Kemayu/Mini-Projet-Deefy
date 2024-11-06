@@ -2,6 +2,7 @@
 
 namespace iutnc\deefy\classes\action;
 
+use iutnc\deefy\classes\auth\AuthnProvider;
 use iutnc\deefy\classes\repository\DeefyRepository;
 
 class AddPlaylistAction extends Action
@@ -9,9 +10,10 @@ class AddPlaylistAction extends Action
     public function execute(): string
     {
         // Vérification de la connexion
-        if (!isset($_SESSION['user_email'])) {
+        if(!AuthnProvider::authEmail()) {
             return "Vous devez etre connecté pour créer une playlist";
         }
+
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             return $this->getForm();

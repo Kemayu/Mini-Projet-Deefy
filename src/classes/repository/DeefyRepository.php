@@ -119,5 +119,17 @@ class DeefyRepository
         return $user ? (int)$user['id'] : null;
     }
 
+    public function getUserByEmail(string $email): ?array
+    {
+        $stmt = self::getInstance()->prepare("SELECT * FROM user WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ?: null;
+    }
+
+
+
 
 }

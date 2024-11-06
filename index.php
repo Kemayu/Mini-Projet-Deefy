@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+
+use iutnc\deefy\classes\auth\AuthnProvider;
 use iutnc\deefy\classes\repository\DeefyRepository;
 
 ini_set('display_errors', "1");
@@ -23,9 +25,6 @@ try {
     $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Initialiser AuthnProvider avec PDO
-    \iutnc\deefy\classes\auth\AuthnProvider::init($pdo);
 
     session_start();
 

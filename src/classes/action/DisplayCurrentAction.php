@@ -2,6 +2,8 @@
 
 namespace iutnc\deefy\classes\action;
 
+use iutnc\deefy\classes\auth\AuthnProvider;
+use iutnc\deefy\classes\exception\AuthnException;
 use iutnc\deefy\classes\repository\DeefyRepository;
 
 class DisplayCurrentAction extends Action
@@ -9,16 +11,17 @@ class DisplayCurrentAction extends Action
     public function execute(): string
     {
         // Vérification
-        if (!isset($_SESSION['user_email'])) {
-            return "Vous devez etre connecté pour afficher la playlist courante";
+        if(!AuthnProvider::authEmail()) {
+            return "Vous devez etre connecté pour créer une playlist";
         }
-        if (!isset($_SESSION['playlist_id'])) {
+        if (!AuthnProvider::authPlaylist_id()) {
             return "Aucune playlist courante";
         }
 
-        $playlistId = $_SESSION['playlist_id'];
+        $playlistId = $_GET["id"];/////// $_SESSION['playlist_id']; ///////// attention bug et failles
         $repo = new DeefyRepository();
         $playlist = $repo->findPlaylistById($playlistId);
+
 
         // Vérifiez si la playlist existe
         if (!$playlist) {

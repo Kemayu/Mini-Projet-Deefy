@@ -1,6 +1,5 @@
-*,
-*::before,
-*::after {
+/* Réinitialisation des marges et du padding pour tous les éléments */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,9 +7,9 @@
 
 /* Corps de la page */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f7fb; /* Fond clair avec une nuance de violet */
+    color: #4b007d; /* Texte violet foncé */
     line-height: 1.6;
     padding: 20px;
     display: flex;
@@ -22,73 +21,90 @@ body {
 /* Conteneur principal */
 .container {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px; /* Un peu plus large pour plus d'espace */
     margin: auto;
     background: #fff;
     padding: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombre plus marquée */
+    border-radius: 12px; /* Coins plus arrondis */
 }
 
 /* Titres */
 h1, h2, h3 {
-    color: #0073e6;
-    margin-bottom: 15px;
+    color: #6a0dad; /* Violet moyen pour les titres */
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 /* Style pour les liens */
 a {
-    color: #0073e6;
+    color: #6a0dad; /* Violet pour les liens */
     text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 a:hover {
+    color: #4b007d; /* Violet foncé au survol */
     text-decoration: underline;
 }
 
 /* Paragraphes */
 p {
     margin-bottom: 15px;
+    font-size: 16px;
 }
 
 /* Boutons */
 button {
-    background-color: #0073e6;
+    background-color: #6a0dad; /* Violet pour le fond des boutons */
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 25px; /* Plus grand pour un effet visuel plus marqué */
     border: none;
-    border-radius: 4px;
+    border-radius: 25px; /* Coins bien arrondis */
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 button:hover {
-    background-color: #005bb5;
+    background-color: #4b007d; /* Violet foncé au survol */
+    transform: scale(1.05); /* Effet de survol */
 }
 
 /* Style pour les formulaires */
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 15px;
+    margin-top: 20px;
     background-color: #fafafa;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 label {
     font-weight: bold;
-    color: #555;
+    color: #6a0dad; /* Couleur violette pour les labels */
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px; /* Coins légèrement arrondis */
     font-size: 14px;
     width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #6a0dad; /* Bordure violette au focus */
 }
 
 /* Listes */
@@ -96,36 +112,46 @@ ul {
     list-style-type: none;
     margin-top: 10px;
 }
+
 ul li {
     background: #f0f3f5;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 8px; /* Coins arrondis */
     margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
+
+ul li:hover {
+    background-color: #e2e6ea;
+}
+
 ul li a {
-    color: #333;
-    font-weight: bold;
+    color: #4b007d; /* Violet foncé pour les liens dans la liste */
+    font-weight: 600;
 }
+
 ul li a:hover {
-    color: #0073e6;
+    color: #6a0dad; /* Violet moyen au survol */
 }
 
 /* Messages de succès et d'erreur */
 .message-success {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 10px;
-    border: 1px solid #c3e6cb;
-    border-radius: 4px;
+    background-color: #e1d0f5; /* Violet clair pour les messages de succès */
+    color: #4b007d;
+    padding: 12px;
+    border: 1px solid #d3a6f0;
+    border-radius: 8px;
     margin-bottom: 20px;
+    font-weight: 500;
 }
 
 .message-error {
     background-color: #f8d7da;
     color: #721c24;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #f5c6cb;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 20px;
+    font-weight: 500;
 }

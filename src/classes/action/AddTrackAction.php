@@ -2,6 +2,7 @@
 
 namespace iutnc\deefy\classes\action;
 
+use iutnc\deefy\classes\auth\AuthnProvider;
 use iutnc\deefy\classes\repository\DeefyRepository;
 
 class AddTrackAction extends Action
@@ -9,12 +10,12 @@ class AddTrackAction extends Action
     public function execute(): string
     {
 // Vérification connexion
-        if (!isset($_SESSION['user_email'])) {
-            return "Vous devez vous authentifier pour ajouter une piste";
+        if(!AuthnProvider::authEmail()) {
+            return "Vous devez etre connecté pour créer une playlist";
         }
 
 // Vérification playlist
-        if (!isset($_SESSION['playlist_id'])) {
+        if (!AuthnProvider::authPlaylist_id()) {
             return "Aucune playlist courante sélectionnée";
         }
 
