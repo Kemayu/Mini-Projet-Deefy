@@ -37,7 +37,7 @@ class AuthnProvider
         $row = $stmt->fetch();
 
         if (!$row) {
-            throw new AuthnException("Auth error: User not found");
+            throw new AuthnException("Auth error: Utilisateur non trouvé");
         }
 
         $hash = $row['passwd'];
